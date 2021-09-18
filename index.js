@@ -14,8 +14,6 @@ const config = {
     access_token_secret: process.env.ACCESS_TOKEN_SECRET
 };
 
-console.log(config);
-
 // Create new twit instance
 const T = new Twit(config)
 
