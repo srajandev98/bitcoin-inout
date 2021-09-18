@@ -36,9 +36,11 @@ let retweetCount = 0;
 let filterCount = 0;
 let totalCount = 0;
 
+const oneHour = 1000 * 60 * 60;
+
 // Stream on favorite tweets, hastags and retweet them
 likeAndReTweet()
-setTimeout(likeAndReTweet, 1000 * 60 * 60);
+setTimeout(likeAndReTweet, oneHour);
 
 function likeAndReTweet() {
 
@@ -73,6 +75,9 @@ function likeAndReTweet() {
             retweetCount++;
         } else {
             console.log('----------- Limit Exceeded :( -----------');
+            console.log('----------- Stopping Filter Stream -----------');
+            filterStream.stop();
+            console.log('----------- Will Run after an Hour :) -----------');
         }
     });
 }
