@@ -5,7 +5,7 @@ const Twit = require("twit");
 const axios = require('axios');
 const {
     hashtags
-} = require('./hashtags');
+} = require('./top-gainers');
 
 const config = {
     consumer_key: process.env.CONSUMER_KEY,
