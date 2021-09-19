@@ -1,6 +1,5 @@
 require('dotenv').config()
 console.log("Starting the Bot..");
-// const config = require("./config/default.env")
 const Twit = require("twit");
 const axios = require('axios');
 const {
@@ -71,11 +70,14 @@ function likeAndReTweet() {
     totalCount = 0;
 
     const filterStream = T.stream('statuses/filter', {
-        track: hashtags
+        track: hashtags,
+        language: 'en'
     })
     filterCount++;
 
     filterStream.on('tweet', function (tweet) {
+
+        // console.log(tweet);
 
         // totalCount = likeCount + retweetCount;
         console.log(`----------- Total Request Count: ${totalCount} -----------`);
