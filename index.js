@@ -37,10 +37,11 @@ let filterCount = 0;
 let totalCount = 0;
 
 const oneHour = 1000 * 60 * 60;
+const tenMinutes = 1000 * 10 * 60;
 
 // Stream on favorite tweets, hastags and retweet them
 likeAndReTweet()
-setTimeout(likeAndReTweet, oneHour);
+setTimeout(likeAndReTweet, tenMinutes);
 
 function likeAndReTweet() {
 
@@ -56,33 +57,41 @@ function likeAndReTweet() {
 
     filterStream.on('tweet', function (tweet) {
 
-        totalCount = likeCount + retweetCount;
+        // totalCount = likeCount + retweetCount;
         console.log(`----------- Total Request Count: ${totalCount} -----------`);
 
-        if (totalCount < 99) {
+        if (totalCount < 6) {
             // Like the tweets..
             console.log(`-----------  Liking tweet ${tweet.id_str} -----------`);
             T.post('favorites/create', {
                 id: tweet.id_str
-            }, responseCallback);
+            }, likeResponseCallback);
             likeCount++;
 
             // Retweet
             console.log(`----------- Retweeting tweet ${tweet.id_str} -----------`);
             T.post('statuses/retweet/:id', {
                 id: tweet.id_str
-            }, responseCallback)
+            }, retweetResponseCallback)
             retweetCount++;
+
+            totalCount++;
         } else {
             console.log('----------- Limit Exceeded :( -----------');
             console.log('----------- Stopping Filter Stream -----------');
             filterStream.stop();
-            console.log('----------- Will Run after an Hour :) -----------');
+            console.log('----------- Will Run after 10 Minutes :) -----------');
         }
     });
 }
 
 
-function responseCallback(err) {
+function likeResponseCallback(err) {
     if (err) console.log("error:", err)
+    likeCount--;
+}
+
+function retweetResponseCallback(err) {
+    if (err) console.log("error:", err)
+    retweetCount--
 }

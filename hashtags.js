@@ -1,7 +1,7 @@
 let hashtags = [
-    "#blockchain",
+    // "#blockchain",
     "#bitcoin",
-    "#cryptocurrency",
+    /* "#cryptocurrency",
     "#crypto",
     "#btc",
     "#ethereum",
@@ -21,7 +21,7 @@ let hashtags = [
     "#binance",
     "#filecoin",
     "#ipfs",
-    "metamask"
+    "metamask" */
 ];
 
 module.exports = {
