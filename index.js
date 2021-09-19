@@ -5,7 +5,7 @@ const Twit = require("twit");
 const axios = require('axios');
 const {
     hashtags
-} = require('./top-gainers');
+} = require('./hashtags');
 
 const config = {
     consumer_key: process.env.CONSUMER_KEY,
@@ -16,6 +16,26 @@ const config = {
 
 // Create new twit instance
 const T = new Twit(config)
+
+function shuffle(array) {
+    let currentIndex = array.length,  randomIndex;
+  
+    // While there remain elements to shuffle...
+    while (currentIndex != 0) {
+  
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+  
+      // And swap it with the current element.
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+    }
+  
+    return array;
+}
+
+shuffle(hashtags);
 
 
 // Post a joke daily
