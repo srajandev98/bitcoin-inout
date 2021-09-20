@@ -5,6 +5,7 @@ const axios = require('axios');
 const {
     hashtags
 } = require('./hashtags');
+const { quotes } = require("./quotes");
 
 const config = {
     consumer_key: process.env.CONSUMER_KEY,
@@ -37,30 +38,38 @@ function shuffle(array) {
 shuffle(hashtags);
 
 
-// Post a joke daily
-/* postStatusUpdate()
- setTimeout(postStatusUpdate, 86400000)
+const oneHour = 1000 * 60 * 60;
+// const tenMinutes = 1000 * 10 * 60;
+
+// Post a Bitcoin quote
+let quoteNum = 0;
+postStatusUpdate()
+setTimeout(postStatusUpdate, oneHour)
 async function postStatusUpdate() {
-	const joke = await axios.get("https://icanhazdadjoke.com/", {headers: {'Accept': 'application/json'}}).then(res => {
-		return res.data.joke
-	});
-	if(joke) {
-		T.post('statuses/update',{status: joke}, responseCallback)
-	}
+    let quote = quotes[quoteNum];
+	if(quote) {
+        const status = `${quote.content}\n\n~ ${quote.author}`;
+        if(status.length <= 280) {
+            // Posting a new Bitcoin Tweet
+            console.log(`-----------  Posting a new Bitcoin Tweet -----------`);
+            T.post('statuses/update',{"status": status}, responseCallback);
+            quoteNum++;
+        }
+	} else {
+        quoteNum = 0;
+    }
 	
-} */
+}
+
 
 let likeCount = 0;
 let retweetCount = 0;
 let filterCount = 0;
 let totalCount = 0;
 
-const oneHour = 1000 * 60 * 60;
-const tenMinutes = 1000 * 10 * 60;
-
 // Stream on favorite tweets, hastags and retweet them
 likeAndReTweet()
-setTimeout(likeAndReTweet, tenMinutes);
+setTimeout(likeAndReTweet, oneHour);
 
 function likeAndReTweet() {
 
@@ -102,7 +111,7 @@ function likeAndReTweet() {
             console.log('----------- Limit Exceeded :( -----------');
             console.log('----------- Stopping Filter Stream -----------');
             filterStream.stop();
-            console.log('----------- Will Run after 10 Minutes :) -----------');
+            console.log('----------- Will Run after 1 Hour :) -----------');
         }
     });
 }
@@ -116,4 +125,8 @@ function likeResponseCallback(err) {
 function retweetResponseCallback(err) {
     if (err) console.log("error:", err)
     retweetCount--
+}
+
+function responseCallback(err) {
+    if (err) console.log("error:", err)
 }
